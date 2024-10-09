@@ -1,3 +1,41 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from .forms import SignUpForm
+from .models import UserProfile
+from .forms import LoginForm
+from .models import UserProfile
 
-# Create your views here.
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save()
+            profile = UserProfile.objects.create(user=user)
+            profile.save_face_encoding(form.cleaned_data['face_image'])
+            login(request, user)
+            return redirect('home')
+    else:
+        form = SignUpForm()
+    return render(request, 'signup.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST, request.FILES)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            face_image = form.cleaned_data['face_image']
+            user = authenticate(request, username=username, password=password)
+            if user:
+                profile = UserProfile.objects.get(user=user)
+                if profile.verify_face(face_image):
+                    login(request, user)
+                    return redirect('home')
+                else:
+                    form.add_error(None, "Reconnaissance faciale échouée")
+            else:
+                form.add_error(None, "Nom d'utilisateur ou mot de passe incorrect")
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})

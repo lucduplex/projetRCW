@@ -1,0 +1,30 @@
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <video id="video" width="320" height="240" autoplay></video>
+    <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
+    <button type="button" onclick="captureImage()">Capturer une image</button>
+    <input type="file" id="face_image" name="face_image" accept="image/*" required>
+    <button type="submit">S'inscrire</button>
+</form>
+
+<script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const faceImageInput = document.getElementById('face_image');
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+    .then((stream) => {
+        video.srcObject = stream;
+    });
+
+    function captureImage() {
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob((blob) => {
+            const file = new File([blob], "face_image.jpg", { type: "image/jpeg" });
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            faceImageInput.files = dataTransfer.files;
+        });
+    }
+</script>
