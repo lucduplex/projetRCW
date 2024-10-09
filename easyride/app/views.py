@@ -1,10 +1,17 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from .forms import SignUpForm
 from .models import UserProfile
 from .forms import LoginForm
 from .models import UserProfile
 
+def home_view(request):
+    return render(request, 'home.html')
+
+def user_logout(request):
+    logout(request)
+    request.session.flush()  # Vider la session lors de la déconnexion
+    return redirect('login')  # Redirection vers la page de connexion après déconnexion
 
 def signup_view(request):
     if request.method == 'POST':

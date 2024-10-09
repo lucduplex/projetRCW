@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Jumbotron -->
+    <div class="bg-light p-5 rounded shadow-sm">
+        <h1 class="display-4">Bienvenue sur notre site !</h1>
+        <p class="lead">Explorez nos fonctionnalités et services. Nous sommes ravis de vous accueillir.</p>
+        <hr class="my-4">
+        <p>Vous pouvez parcourir nos services en utilisant le menu ci-dessus ou cliquer sur les boutons ci-dessous pour en savoir plus.</p>
+        <a class="btn btn-primary btn-lg me-3" href="/about/" role="button">À propos de nous</a>
+        <a class="btn btn-outline-secondary btn-lg" href="/contact/" role="button">Contactez-nous</a>
+    </div>
+
+    <!-- Section Services -->
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Service 1">
+                <div class="card-body">
+                    <h5 class="card-title">Service 1</h5>
+                    <p class="card-text">Découvrez notre premier service innovant, conçu pour vous apporter la meilleure expérience.</p>
+                    <a href="#" class="btn btn-primary">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Service 2">
+                <div class="card-body">
+                    <h5 class="card-title">Service 2</h5>
+                    <p class="card-text">Notre deuxième service vous offre des solutions pratiques et rapides pour vos besoins.</p>
+                    <a href="#" class="btn btn-primary">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Service 3">
+                <div class="card-body">
+                    <h5 class="card-title">Service 3</h5>
+                    <p class="card-text">Avec notre troisième service, vous bénéficiez de fonctionnalités avancées pour vos projets.</p>
+                    <a href="#" class="btn btn-primary">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Témoignages -->
+    <div class="row mt-5 text-center">
+        <h2 class="mb-4">Ce que disent nos clients</h2>
+        <div class="col-md-4">
+            <blockquote class="blockquote">
+                <p class="mb-0">"Un service incroyable, je recommande fortement !"</p>
+                <footer class="blockquote-footer">Client 1</footer>
+            </blockquote>
+        </div>
+        <div class="col-md-4">
+            <blockquote class="blockquote">
+                <p class="mb-0">"Une équipe professionnelle et des solutions sur mesure."</p>
+                <footer class="blockquote-footer">Client 2</footer>
+            </blockquote>
+        </div>
+        <div class="col-md-4">
+            <blockquote class="blockquote">
+                <p class="mb-0">"Très satisfait de leur approche innovante et rapide."</p>
+                <footer class="blockquote-footer">Client 3</footer>
+            </blockquote>
+        </div>
+    </div>
+</div>
+{% endblock %}

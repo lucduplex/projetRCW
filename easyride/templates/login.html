@@ -1,23 +1,83 @@
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <video id="video" width="320" height="240" autoplay></video>
-    <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
-    <button type="button" onclick="captureImage()">Capturer une image</button>
-    <input type="file" id="face_image" name="face_image" accept="image/*" required>
-    <button type="submit">Se connecter</button>
-</form>
+{% extends "base.html" %}
 
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Connexion</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Champ nom d'utilisateur -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Nom d'utilisateur</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                            <div class="invalid-feedback">Veuillez entrer votre nom d'utilisateur.</div>
+                        </div>
+
+                        <!-- Champ mot de passe -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="invalid-feedback">Veuillez entrer votre mot de passe.</div>
+                        </div>
+
+                        <!-- Capture vidéo -->
+                        <div class="mb-3 text-center">
+                            <video id="video" class="border" width="320" height="240" autoplay></video>
+                            <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <!-- Bouton pour capturer une image du visage -->
+                            <button type="button" class="btn btn-warning mb-3" onclick="captureImage()">
+                                <i class="bi bi-camera"></i> Capturer une image
+                            </button>
+                            <!-- Champ caché pour envoyer l'image capturée -->
+                            <input type="file" id="face_image" name="face_image" accept="image/*" style="display: none;" required>
+                            <div class="invalid-feedback">Veuillez capturer une image pour vous connecter.</div>
+                        </div>
+
+                        <!-- Soumission du formulaire -->
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-box-arrow-in-right"></i> Se connecter
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Bouton d'inscription si l'utilisateur n'a pas de compte -->
+                    <div class="text-center mt-4">
+                        <p>Vous n'avez pas de compte ?</p>
+                        <a class="btn btn-secondary" href="{% url 'signup' %}">
+                            <i class="bi bi-person-plus"></i> S'inscrire
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script pour capturer l'image depuis la webcam -->
 <script>
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const faceImageInput = document.getElementById('face_image');
 
+    // Activer la caméra et diffuser le flux vidéo
     navigator.mediaDevices.getUserMedia({ video: true })
     .then((stream) => {
         video.srcObject = stream;
     });
 
+    // Fonction pour capturer l'image et l'envoyer en tant que fichier
     function captureImage() {
         canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
         canvas.toBlob((blob) => {
@@ -28,3 +88,4 @@
         });
     }
 </script>
+{% endblock %}

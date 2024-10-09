@@ -1,23 +1,96 @@
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <video id="video" width="320" height="240" autoplay></video>
-    <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
-    <button type="button" onclick="captureImage()">Capturer une image</button>
-    <input type="file" id="face_image" name="face_image" accept="image/*" required>
-    <button type="submit">S'inscrire</button>
-</form>
+{% extends "base.html" %}
 
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Inscription avec Photo de Profil</h4>
+                </div>
+                <div class="card-body">
+                    <form id="signup-form" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Champ nom d'utilisateur -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Nom d'utilisateur</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                            <div class="invalid-feedback">Veuillez entrer un nom d'utilisateur.</div>
+                        </div>
+
+                        <!-- Champ mot de passe -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="invalid-feedback">Veuillez entrer un mot de passe.</div>
+                        </div>
+
+                        <!-- Confirmation mot de passe -->
+                        <div class="mb-3">
+                            <label for="password-confirm" class="form-label">Confirmer le mot de passe</label>
+                            <input type="password" class="form-control" id="password-confirm" name="password-confirm" required>
+                            <div class="invalid-feedback">Les mots de passe ne correspondent pas.</div>
+                        </div>
+
+                        <!-- Option de choix : Téléverser ou Prendre une photo -->
+                        <div class="mb-3">
+                            <label for="method-select" class="form-label">Choisissez comment ajouter une photo de profil :</label>
+                            <select class="form-select" id="method-select" onchange="toggleMethod()">
+                                <option value="upload">Téléverser une image</option>
+                                <option value="capture">Prendre une photo avec la webcam</option>
+                            </select>
+                        </div>
+
+                        <!-- Téléverser une image -->
+                        <div id="upload-section" class="mb-3">
+                            <label for="face_image" class="form-label">Téléverser une image</label>
+                            <input type="file" class="form-control" id="face_image" name="face_image" accept="image/*">
+                        </div>
+
+                        <!-- Capturer une photo avec la webcam -->
+<div id="capture-section" class="mb-3" style="display: none;">
+    <label for="video" class="form-label d-block text-center">Prendre une photo avec la webcam</label>
+    <div class="d-flex justify-content-center">
+        <video id="video" class="border mb-3" width="320" height="240" autoplay></video>
+        <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
+    </div>
+    <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-warning mb-3" onclick="captureImage()">
+            <i class="bi bi-camera"></i> Capturer une image
+        </button>
+    </div>
+</div>
+
+                        <!-- Soumission du formulaire -->
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-box-arrow-in-right"></i> S'inscrire
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script pour capturer l'image depuis la webcam ou téléverser -->
 <script>
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const faceImageInput = document.getElementById('face_image');
 
+    // Activer la caméra pour afficher le flux vidéo
     navigator.mediaDevices.getUserMedia({ video: true })
     .then((stream) => {
         video.srcObject = stream;
     });
 
+    // Fonction pour capturer l'image via la webcam
     function captureImage() {
         canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
         canvas.toBlob((blob) => {
@@ -27,4 +100,34 @@
             faceImageInput.files = dataTransfer.files;
         });
     }
+
+    // Fonction pour alterner entre téléversement et capture
+    function toggleMethod() {
+        const methodSelect = document.getElementById('method-select');
+        const uploadSection = document.getElementById('upload-section');
+        const captureSection = document.getElementById('capture-section');
+
+        if (methodSelect.value === 'upload') {
+            uploadSection.style.display = 'block';
+            captureSection.style.display = 'none';
+        } else if (methodSelect.value === 'capture') {
+            uploadSection.style.display = 'none';
+            captureSection.style.display = 'block';
+        }
+    }
+
+    // Validation des mots de passe
+    document.getElementById('signup-form').addEventListener('submit', function(event) {
+        const password = document.getElementById('password').value;
+        const passwordConfirm = document.getElementById('password-confirm').value;
+        
+        if (password !== passwordConfirm) {
+            event.preventDefault();
+            document.getElementById('password-confirm').setCustomValidity("Les mots de passe ne correspondent pas");
+            document.getElementById('password-confirm').reportValidity();
+        } else {
+            document.getElementById('password-confirm').setCustomValidity("");
+        }
+    });
 </script>
+{% endblock %}
