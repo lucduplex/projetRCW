@@ -18,7 +18,9 @@ def signup_view(request):
         form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
-            profile = UserProfile.objects.create(user=user)
+            mobile_number = form.cleaned_data['mobile_number']
+            email = form.cleaned_data['email']
+            profile = UserProfile.objects.create(user=user, mobile_number=mobile_number, email=email)
             profile.save_face_encoding(form.cleaned_data['face_image'])
             login(request, user)
             return redirect('home')
