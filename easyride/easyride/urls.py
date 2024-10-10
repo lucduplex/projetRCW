@@ -4,7 +4,6 @@ from app.views import signup_view, login_view, home_view, user_logout, about_vie
 from django.conf import settings
 from django.conf.urls.static import static
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/', signup_view, name='signup'),
@@ -16,4 +15,3 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

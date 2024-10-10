@@ -34,14 +34,14 @@
                         <div class="mb-3">
                             <label for="mobile_number" class="form-label">Numéro de Mobile</label>
                             <input type="text" class="form-control" id="mobile_number" name="mobile_number" required>
-                            <div class="invalid-feedback">Veuillez entrer un numéro de mobile.</div>
+                            <div class="invalid-feedback">Veuillez entrer un numéro de mobile valide.</div>
                         </div>
 
                         <!-- Champ courriel -->
                         <div class="mb-3">
                             <label for="email" class="form-label">Courriel</label>
                             <input type="email" class="form-control" id="email" name="email" required>
-                            <div class="invalid-feedback">Veuillez entrer un courriel.</div>
+                            <div class="invalid-feedback">Veuillez entrer un courriel valide.</div>
                         </div>
 
                         <!-- Champ mot de passe -->
@@ -158,78 +158,30 @@
         }
     }
 
-    // Validation des champs
+    // Validation des champs et mots de passe
     document.getElementById('signup-form').addEventListener('submit', function(event) {
         const username = document.getElementById('username').value;
         const mobile_number = document.getElementById('mobile_number').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const passwordConfirm = document.getElementById('password-confirm').value;
-        const methodSelect = document.getElementById('method-select').value;
         const faceImageInput = document.getElementById('face_image');
 
-        // Effacer les messages d'erreur précédents
-        document.getElementById('username').setCustomValidity("");
-        document.getElementById('mobile_number').setCustomValidity("");
-        document.getElementById('email').setCustomValidity("");
-        document.getElementById('password').setCustomValidity("");
-        document.getElementById('password-confirm').setCustomValidity("");
-        document.getElementById('face_image').setCustomValidity("");
-
-        // Vérifier les conditions de validation des mots de passe
-        if (!username) {
-            event.preventDefault();
-            document.getElementById('username').setCustomValidity("Le champs 'Nom d'utilisateur' ne peut pas être vide.");
-            document.getElementById('username').reportValidity();
-        } else if (!mobile_number) {
-            event.preventDefault();
-            document.getElementById('mobile_number').setCustomValidity("Le champs 'Numéro de Mobile' ne peut pas être vide.");
-            document.getElementById('mobile_number').reportValidity();
-        } else if (mobile_number.length !== 10) {
-            event.preventDefault();
-            document.getElementById('mobile_number').setCustomValidity("Le Numéro de Mobile doit être de 10 chiffres.");
-            document.getElementById('mobile_number').reportValidity();
-        } else if (!email) {
-            event.preventDefault();
-            document.getElementById('email').setCustomValidity("Le champs 'Courriel' ne peut pas être vide.");
-            document.getElementById('email').reportValidity();
-        } else if (!password) {
-            event.preventDefault();
-            document.getElementById('password').setCustomValidity("Le champs 'Mot de passe' ne peut pas être vide.");
-            document.getElementById('password').reportValidity();
-        } else if (!passwordConfirm) {
-            event.preventDefault();
-            document.getElementById('password-confirm').setCustomValidity("Le champs 'Confirmer le mot de passe' ne peut pas être vide.");
-            document.getElementById('password-confirm').reportValidity();
-        } else if ((methodSelect === "upload" || methodSelect === "capture") && (!faceImageInput.files || faceImageInput.files.length === 0)) {
-            event.preventDefault();
-            document.getElementById('face_image').setCustomValidity("Le champs 'Téléverser une image' ne peut pas être vide.");
-            document.getElementById('face_image').reportValidity();
-        }
-    });
-
-    // Validation des mots de passe
-    document.getElementById('signup-form').addEventListener('submit', function(event) {
-        const password = document.getElementById('password').value;
-        const passwordConfirm = document.getElementById('password-confirm').value;
-
-        // Effacer les messages d'erreur précédents
-        document.getElementById('password').setCustomValidity("");
-        document.getElementById('password-confirm').setCustomValidity("");
-
-        // Vérifier les conditions de validation des mots de passe
+        // Vérification de la validité des champs
         if (password !== passwordConfirm) {
             event.preventDefault();
             document.getElementById('password-confirm').setCustomValidity("Les mots de passe ne correspondent pas.");
             document.getElementById('password-confirm').reportValidity();
-        } else if (password.length < 8) {
+        } else {
+            document.getElementById('password-confirm').setCustomValidity("");
+        }
+
+        if (password.length < 8) {
             event.preventDefault();
-            document.getElementById('password').setCustomValidity("Le mot de passe doit être de 8 caractères minimum.");
+            document.getElementById('password').setCustomValidity("Le mot de passe doit contenir au moins 8 caractères.");
             document.getElementById('password').reportValidity();
-        } else if (!/[A-Z]/.test(password)) {
-            event.preventDefault();
-            document.getElementById('password').setCustomValidity("Le mot de passe doit contenir au moins une lettre majuscule.");
-            document.getElementById('password').reportValidity();
+        } else {
+            document.getElementById('password').setCustomValidity("");
         }
     });
 </script>

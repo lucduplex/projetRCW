@@ -10,8 +10,21 @@ def signup_view(request):
             user = form.save()
             mobile_number = form.cleaned_data['mobile_number']
             email = form.cleaned_data['email']
-            profile = UserProfile.objects.create(user=user, mobile_number=mobile_number, email=email)
-            profile.save_face_encoding(form.cleaned_data['face_image'])
+            face_image = form.cleaned_data['face_image']
+            
+            # Créer le profil utilisateur
+            profile = UserProfile.objects.create(
+                user=user,
+                mobile_number=mobile_number,
+                email=email,
+            )
+            try:
+                profile.save_face_encoding(face_image)
+            except ValueError as e:
+                form.add_error(None, str(e))
+                user.delete()  # Supprimer l'utilisateur en cas d'erreur d'encodage
+                return render(request, 'signup.html', {'form': form})
+
             login(request, user)
             return redirect('home')
     else:
@@ -26,6 +39,7 @@ def login_view(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             face_image = form.cleaned_data['face_image']
+
             user = authenticate(request, username=username, password=password)
             if user:
                 profile = UserProfile.objects.get(user=user)
@@ -33,17 +47,15 @@ def login_view(request):
                     login(request, user)
                     return redirect('home')
                 else:
-                    form.add_error(None, "Reconnaissance faciale échouée")
+                    form.add_error(None, "Reconnaissance faciale échouée.")
             else:
-                form.add_error(None, "Nom d'utilisateur ou mot de passe incorrect")
+                form.add_error(None, "Nom d'utilisateur ou mot de passe incorrect.")
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
 
-
 def home_view(request):
     return render(request, 'home.html')
-
 
 def user_logout(request):
     logout(request)
