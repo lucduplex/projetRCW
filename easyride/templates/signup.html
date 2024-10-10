@@ -9,13 +9,13 @@
         <!-- Left side with logo -->
         <div class="col-lg-6 d-flex align-items-center justify-content-center bg-primary">
             <div class="text-center">
-                <img src="{% static 'images/taxi_logo.png' %}" alt="Taxi Logo" class="logo" style="width: 550px; max-height: 80vh;">
+                <img src="{% static 'images/taxi_logo.png' %}" alt="Taxi Logo" class="img-fluid" style="width: 550px;">
             </div>
         </div>
 
         <!-- Right side with registration form -->
         <div class="col-lg-6 d-flex align-items-center justify-content-center">
-            <div class="card shadow-lg scrollable-form" style="width: 100%; max-width: 600px;">
+            <div class="card shadow-lg scrollable-form" style="width: 100%; max-width: 500px;">
                 <div class="card-header bg-primary text-white text-center">
                     <h4>Inscription avec Photo de Profil</h4>
                 </div>
@@ -23,42 +23,28 @@
                     <form id="signup-form" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                         {% csrf_token %}
 
-                        <!-- Champ nom d'utilisateur -->
+                        <!-- Username field -->
                         <div class="mb-3">
                             <label for="username" class="form-label">Nom d'utilisateur</label>
                             <input type="text" class="form-control" id="username" name="username" required>
                             <div class="invalid-feedback">Veuillez entrer un nom d'utilisateur.</div>
                         </div>
 
-                        <!-- Champ numéro de mobile -->
-                        <div class="mb-3">
-                            <label for="mobile_number" class="form-label">Numéro de Mobile</label>
-                            <input type="text" class="form-control" id="mobile_number" name="mobile_number" required>
-                            <div class="invalid-feedback">Veuillez entrer un numéro de mobile.</div>
-                        </div>
-
-                        <!-- Champ courriel -->
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Courriel</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                            <div class="invalid-feedback">Veuillez entrer un courriel.</div>
-                        </div>
-
-                        <!-- Champ mot de passe -->
+                        <!-- Password field -->
                         <div class="mb-3">
                             <label for="password" class="form-label">Mot de passe</label>
                             <input type="password" class="form-control" id="password" name="password" required>
                             <div class="invalid-feedback">Veuillez entrer un mot de passe.</div>
                         </div>
 
-                        <!-- Confirmation mot de passe -->
+                        <!-- Password confirmation field -->
                         <div class="mb-3">
                             <label for="password-confirm" class="form-label">Confirmer le mot de passe</label>
                             <input type="password" class="form-control" id="password-confirm" name="password-confirm" required>
                             <div class="invalid-feedback">Les mots de passe ne correspondent pas.</div>
                         </div>
 
-                        <!-- Option de choix : Téléverser ou Prendre une photo -->
+                        <!-- Choose profile picture option -->
                         <div class="mb-3">
                             <label for="method-select" class="form-label">Choisissez comment ajouter une photo de profil :</label>
                             <select class="form-select" id="method-select" onchange="toggleMethod()">
@@ -67,13 +53,13 @@
                             </select>
                         </div>
 
-                        <!-- Téléverser une image -->
+                        <!-- Upload an image -->
                         <div id="upload-section" class="mb-3">
                             <label for="face_image" class="form-label">Téléverser une image</label>
                             <input type="file" class="form-control" id="face_image" name="face_image" accept="image/*">
                         </div>
 
-                        <!-- Capturer une photo avec la webcam -->
+                        <!-- Capture an image with the webcam -->
                         <div id="capture-section" class="mb-3" style="display: none;">
                             <label for="video" class="form-label d-block text-center">Prendre une photo avec la webcam</label>
                             <div class="d-flex justify-content-center">
@@ -87,7 +73,7 @@
                             </div>
                         </div>
 
-                        <!-- Soumission du formulaire -->
+                        <!-- Submit button -->
                         <div class="d-grid gap-2 mt-4">
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-box-arrow-in-right"></i> S'inscrire
@@ -101,36 +87,19 @@
     </div>
 </div>
 
-<!-- Script pour capturer l'image depuis la webcam ou téléverser -->
+<!-- Script for image capture and toggling sections -->
 <script>
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const faceImageInput = document.getElementById('face_image');
-    let cameraStream = null;
 
-    // Fonction pour activer la caméra
-    function enableCamera() {
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then((stream) => {
-                video.srcObject = stream;
-                cameraStream = stream;
-            })
-            .catch((error) => {
-                console.error("Erreur lors de l'accès à la caméra :", error);
-                alert("Impossible d'accéder à la caméra. Veuillez vérifier les permissions.");
-            });
-    }
+    // Enable the camera to display the video stream
+    navigator.mediaDevices.getUserMedia({ video: true })
+    .then((stream) => {
+        video.srcObject = stream;
+    });
 
-    // Fonction pour désactiver la caméra
-    function disableCamera() {
-        if (cameraStream) {
-            const tracks = cameraStream.getTracks();
-            tracks.forEach(track => track.stop());
-            cameraStream = null;
-        }
-    }
-
-    // Fonction pour capturer l'image via la webcam
+    // Function to capture image via webcam
     function captureImage() {
         canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
         canvas.toBlob((blob) => {
@@ -141,7 +110,7 @@
         });
     }
 
-    // Fonction pour alterner entre téléversement et capture
+    // Toggle between upload and capture sections
     function toggleMethod() {
         const methodSelect = document.getElementById('method-select');
         const uploadSection = document.getElementById('upload-section');
@@ -150,86 +119,23 @@
         if (methodSelect.value === 'upload') {
             uploadSection.style.display = 'block';
             captureSection.style.display = 'none';
-            disableCamera();
         } else if (methodSelect.value === 'capture') {
             uploadSection.style.display = 'none';
             captureSection.style.display = 'block';
-            enableCamera();
         }
     }
 
-    // Validation des champs
-    document.getElementById('signup-form').addEventListener('submit', function(event) {
-        const username = document.getElementById('username').value;
-        const mobile_number = document.getElementById('mobile_number').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const passwordConfirm = document.getElementById('password-confirm').value;
-        const methodSelect = document.getElementById('method-select').value;
-        const faceImageInput = document.getElementById('face_image');
-
-        // Effacer les messages d'erreur précédents
-        document.getElementById('username').setCustomValidity("");
-        document.getElementById('mobile_number').setCustomValidity("");
-        document.getElementById('email').setCustomValidity("");
-        document.getElementById('password').setCustomValidity("");
-        document.getElementById('password-confirm').setCustomValidity("");
-        document.getElementById('face_image').setCustomValidity("");
-
-        // Vérifier les conditions de validation des mots de passe
-        if (!username) {
-            event.preventDefault();
-            document.getElementById('username').setCustomValidity("Le champs 'Nom d'utilisateur' ne peut pas être vide.");
-            document.getElementById('username').reportValidity();
-        } else if (!mobile_number) {
-            event.preventDefault();
-            document.getElementById('mobile_number').setCustomValidity("Le champs 'Numéro de Mobile' ne peut pas être vide.");
-            document.getElementById('mobile_number').reportValidity();
-        } else if (mobile_number.length !== 10) {
-            event.preventDefault();
-            document.getElementById('mobile_number').setCustomValidity("Le Numéro de Mobile doit être de 10 chiffres.");
-            document.getElementById('mobile_number').reportValidity();
-        } else if (!email) {
-            event.preventDefault();
-            document.getElementById('email').setCustomValidity("Le champs 'Courriel' ne peut pas être vide.");
-            document.getElementById('email').reportValidity();
-        } else if (!password) {
-            event.preventDefault();
-            document.getElementById('password').setCustomValidity("Le champs 'Mot de passe' ne peut pas être vide.");
-            document.getElementById('password').reportValidity();
-        } else if (!passwordConfirm) {
-            event.preventDefault();
-            document.getElementById('password-confirm').setCustomValidity("Le champs 'Confirmer le mot de passe' ne peut pas être vide.");
-            document.getElementById('password-confirm').reportValidity();
-        } else if ((methodSelect === "upload" || methodSelect === "capture") && (!faceImageInput.files || faceImageInput.files.length === 0)) {
-            event.preventDefault();
-            document.getElementById('face_image').setCustomValidity("Le champs 'Téléverser une image' ne peut pas être vide.");
-            document.getElementById('face_image').reportValidity();
-        }
-    });
-
-    // Validation des mots de passe
+    // Password validation
     document.getElementById('signup-form').addEventListener('submit', function(event) {
         const password = document.getElementById('password').value;
         const passwordConfirm = document.getElementById('password-confirm').value;
 
-        // Effacer les messages d'erreur précédents
-        document.getElementById('password').setCustomValidity("");
-        document.getElementById('password-confirm').setCustomValidity("");
-
-        // Vérifier les conditions de validation des mots de passe
         if (password !== passwordConfirm) {
             event.preventDefault();
-            document.getElementById('password-confirm').setCustomValidity("Les mots de passe ne correspondent pas.");
+            document.getElementById('password-confirm').setCustomValidity("Les mots de passe ne correspondent pas");
             document.getElementById('password-confirm').reportValidity();
-        } else if (password.length < 8) {
-            event.preventDefault();
-            document.getElementById('password').setCustomValidity("Le mot de passe doit être de 8 caractères minimum.");
-            document.getElementById('password').reportValidity();
-        } else if (!/[A-Z]/.test(password)) {
-            event.preventDefault();
-            document.getElementById('password').setCustomValidity("Le mot de passe doit contenir au moins une lettre majuscule.");
-            document.getElementById('password').reportValidity();
+        } else {
+            document.getElementById('password-confirm').setCustomValidity("");
         }
     });
 </script>
