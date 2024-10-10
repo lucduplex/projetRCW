@@ -4,8 +4,6 @@ import face_recognition
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    mobile_number = models.CharField(max_length=10, null=True, blank=True)  # Ajouter le champ mobile_number
-    email = models.CharField(max_length=255, null=True, blank=True)  # Ajouter le champ courriel
     face_encoding = models.TextField(null=True, blank=True)  # Stocker le descripteur facial
 
     def save_face_encoding(self, image):

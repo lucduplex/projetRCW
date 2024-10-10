@@ -1,17 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from .forms import SignUpForm
+from .forms import SignUpForm, LoginForm
 from .models import UserProfile
-from .forms import LoginForm
-from .models import UserProfile
-
-def home_view(request):
-    return render(request, 'home.html')
-
-def user_logout(request):
-    logout(request)
-    request.session.flush()  # Vider la session lors de la déconnexion
-    return redirect('login')  # Redirection vers la page de connexion après déconnexion
 
 def signup_view(request):
     if request.method == 'POST':
@@ -27,6 +17,7 @@ def signup_view(request):
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -48,6 +39,15 @@ def login_view(request):
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
+
+
+def home_view(request):
+    return render(request, 'home.html')
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('login')
 
 def about_view(request):
     return render(request, 'about.html')
