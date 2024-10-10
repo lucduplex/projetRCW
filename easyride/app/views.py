@@ -46,3 +46,6 @@ def login_view(request):
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
+
+def about_view(request):
+    return render(request, 'about.html')
