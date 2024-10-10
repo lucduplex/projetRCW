@@ -135,3 +135,9 @@ footer a {
 .btn:hover {
     transform: scale(1.05);
 }
+
+.scrollable-form {
+    max-height: 90vh;
+    overflow-y: auto;
+    padding-right: 15px;
+}
