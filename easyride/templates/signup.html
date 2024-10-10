@@ -161,6 +161,8 @@
     // Validation des champs
     document.getElementById('signup-form').addEventListener('submit', function(event) {
         const username = document.getElementById('username').value;
+        const mobile_number = document.getElementById('mobile_number').value;
+        const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const passwordConfirm = document.getElementById('password-confirm').value;
         const methodSelect = document.getElementById('method-select').value;
@@ -168,6 +170,8 @@
 
         // Effacer les messages d'erreur précédents
         document.getElementById('username').setCustomValidity("");
+        document.getElementById('mobile_number').setCustomValidity("");
+        document.getElementById('email').setCustomValidity("");
         document.getElementById('password').setCustomValidity("");
         document.getElementById('password-confirm').setCustomValidity("");
         document.getElementById('face_image').setCustomValidity("");
@@ -175,19 +179,31 @@
         // Vérifier les conditions de validation des mots de passe
         if (!username) {
             event.preventDefault();
-            document.getElementById('username').setCustomValidity("Le champs 'Nom d'utilisateur' ne peut pas etre vide.");
+            document.getElementById('username').setCustomValidity("Le champs 'Nom d'utilisateur' ne peut pas être vide.");
             document.getElementById('username').reportValidity();
+        } else if (!mobile_number) {
+            event.preventDefault();
+            document.getElementById('mobile_number').setCustomValidity("Le champs 'Numéro de Mobile' ne peut pas être vide.");
+            document.getElementById('mobile_number').reportValidity();
+        } else if (mobile_number.length !== 10) {
+            event.preventDefault();
+            document.getElementById('mobile_number').setCustomValidity("Le Numéro de Mobile doit être de 10 chiffres.");
+            document.getElementById('mobile_number').reportValidity();
+        } else if (!email) {
+            event.preventDefault();
+            document.getElementById('email').setCustomValidity("Le champs 'Courriel' ne peut pas être vide.");
+            document.getElementById('email').reportValidity();
         } else if (!password) {
             event.preventDefault();
-            document.getElementById('password').setCustomValidity("Le champs 'Mot de passe' ne peut pas etre vide.");
+            document.getElementById('password').setCustomValidity("Le champs 'Mot de passe' ne peut pas être vide.");
             document.getElementById('password').reportValidity();
         } else if (!passwordConfirm) {
             event.preventDefault();
-            document.getElementById('password-confirm').setCustomValidity("Le champs 'Confirmer le mot de passe' ne peut pas etre vide.");
+            document.getElementById('password-confirm').setCustomValidity("Le champs 'Confirmer le mot de passe' ne peut pas être vide.");
             document.getElementById('password-confirm').reportValidity();
         } else if ((methodSelect === "upload" || methodSelect === "capture") && (!faceImageInput.files || faceImageInput.files.length === 0)) {
             event.preventDefault();
-            document.getElementById('face_image').setCustomValidity("Le champs 'Téléverser une image' ne peut pas etre vide.");
+            document.getElementById('face_image').setCustomValidity("Le champs 'Téléverser une image' ne peut pas être vide.");
             document.getElementById('face_image').reportValidity();
         }
     });
