@@ -1,28 +1,30 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Connexion{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
-            <div class="card shadow-lg">
+<div class="container-fluid vh-100">
+    <div class="row h-100">
+        <!-- Left side with login form -->
+        <div class="col-lg-6 d-flex align-items-center justify-content-center">
+            <div class="card shadow-lg" style="width: 100%; max-width: 600px;">
                 <div class="card-header bg-primary text-white text-center">
                     <h4>Connexion</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                         {% csrf_token %}
 
                         <!-- Champ nom d'utilisateur -->
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label for="username" class="form-label">Nom d'utilisateur</label>
                             <input type="text" class="form-control" id="username" name="username" required>
                             <div class="invalid-feedback">Veuillez entrer votre nom d'utilisateur.</div>
                         </div>
 
                         <!-- Champ mot de passe -->
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label for="password" class="form-label">Mot de passe</label>
                             <input type="password" class="form-control" id="password" name="password" required>
                             <div class="invalid-feedback">Veuillez entrer votre mot de passe.</div>
@@ -30,13 +32,13 @@
 
                         <!-- Capture vidéo -->
                         <div class="mb-3 text-center">
-                            <video id="video" class="border" width="320" height="240" autoplay></video>
-                            <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
+                            <video id="video" class="border" width="280" height="200" autoplay></video>
+                            <canvas id="canvas" width="280" height="200" style="display: none;"></canvas>
                         </div>
 
                         <div class="d-grid gap-2">
                             <!-- Bouton pour capturer une image du visage -->
-                            <button type="button" class="btn btn-warning mb-3" onclick="captureImage()">
+                            <button type="button" class="btn btn-warning mb-2" onclick="captureImage()">
                                 <i class="bi bi-camera"></i> Capturer une image
                             </button>
                             <!-- Champ caché pour envoyer l'image capturée -->
@@ -45,7 +47,7 @@
                         </div>
 
                         <!-- Soumission du formulaire -->
-                        <div class="d-grid gap-2 mt-4">
+                        <div class="d-grid gap-2 mt-3">
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-box-arrow-in-right"></i> Se connecter
                             </button>
@@ -60,6 +62,13 @@
                         </a>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Right side with logo -->
+        <div class="col-lg-6 d-flex align-items-center justify-content-center bg-primary">
+            <div class="text-center">
+                <img src="{% static 'images/taxi_logo.png' %}" alt="Taxi Logo" style="width: 550px; max-height: 70vh;">
             </div>
         </div>
     </div>

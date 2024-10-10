@@ -1,12 +1,21 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Inscription{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
-            <div class="card shadow-lg">
+<div class="container-fluid vh-100">
+    <div class="row h-100">
+        <!-- Left side with logo -->
+        <div class="col-lg-6 d-flex align-items-center justify-content-center bg-primary">
+            <div class="text-center">
+                <img src="{% static 'images/taxi_logo.png' %}" alt="Taxi Logo" class="logo" style="width: 550px; max-height: 80vh;">
+            </div>
+        </div>
+
+        <!-- Right side with registration form -->
+        <div class="col-lg-6 d-flex align-items-center justify-content-center">
+            <div class="card shadow-lg" style="width: 100%; max-width: 450px;">
                 <div class="card-header bg-primary text-white text-center">
                     <h4>Inscription avec Photo de Profil</h4>
                 </div>
@@ -51,18 +60,18 @@
                         </div>
 
                         <!-- Capturer une photo avec la webcam -->
-<div id="capture-section" class="mb-3" style="display: none;">
-    <label for="video" class="form-label d-block text-center">Prendre une photo avec la webcam</label>
-    <div class="d-flex justify-content-center">
-        <video id="video" class="border mb-3" width="320" height="240" autoplay></video>
-        <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
-    </div>
-    <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-warning mb-3" onclick="captureImage()">
-            <i class="bi bi-camera"></i> Capturer une image
-        </button>
-    </div>
-</div>
+                        <div id="capture-section" class="mb-3" style="display: none;">
+                            <label for="video" class="form-label d-block text-center">Prendre une photo avec la webcam</label>
+                            <div class="d-flex justify-content-center">
+                                <video id="video" class="border mb-3" width="320" height="240" autoplay></video>
+                                <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-warning mb-3" onclick="captureImage()">
+                                    <i class="bi bi-camera"></i> Capturer une image
+                                </button>
+                            </div>
+                        </div>
 
                         <!-- Soumission du formulaire -->
                         <div class="d-grid gap-2 mt-4">
