@@ -1,0 +1,137 @@
+/* Styles de base */
+body {
+    background-color: #f4f4f4; /* Gris clair pour un effet propre */
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+/* Style pour les backgrounds clairs */
+.bg-light {
+    background-color: #f8f8f8 !important;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #333; /* Couleur sombre pour le contraste */
+    color: #fff;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: #fff !important;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    color: #fff !important;
+    font-size: 16px;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+/* Boutons avec styles et hover */
+.btn {
+    margin-left: 10px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    border-radius: 25px;
+    padding: 10px 20px;
+}
+
+/* Bouton primaire */
+.btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Bouton secondaire */
+.btn-outline-secondary {
+    color: #666;
+    border-color: #666;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #666;
+    color: #fff;
+}
+
+/* Bouton déconnexion */
+.btn-deconnexion {
+    background-color: #ff4757;
+    color: #fff;
+    border-color: #ff4757;
+    transition: all 0.3s ease-in-out;
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+
+.btn-deconnexion:hover {
+    background-color: #e84118;
+    border-color: #e84118;
+    transform: scale(1.05);
+}
+
+/* Bouton connexion */
+.btn-connexion {
+    background-color: #2ecc71;
+    color: #fff;
+    border-color: #2ecc71;
+    transition: all 0.3s ease-in-out;
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+.btn-connexion:hover {
+    background-color: #27ae60;
+    border-color: #27ae60;
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: #fff;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.footer-logo {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Hover zoom effet sur les éléments */
+.hover-zoom:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Style des cartes */
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-img-top {
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.1);
+}
+
+/* Amélioration du style général des boutons */
+.btn:hover {
+    transform: scale(1.05);
+}
