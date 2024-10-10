@@ -23,28 +23,28 @@
                     <form id="signup-form" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                         {% csrf_token %}
 
-                        <!-- Username field -->
+                        <!-- Champ nom d'utilisateur -->
                         <div class="mb-3">
                             <label for="username" class="form-label">Nom d'utilisateur</label>
                             <input type="text" class="form-control" id="username" name="username" required>
                             <div class="invalid-feedback">Veuillez entrer un nom d'utilisateur.</div>
                         </div>
 
-                        <!-- Password field -->
+                        <!-- Champ mot de passe -->
                         <div class="mb-3">
                             <label for="password" class="form-label">Mot de passe</label>
                             <input type="password" class="form-control" id="password" name="password" required>
                             <div class="invalid-feedback">Veuillez entrer un mot de passe.</div>
                         </div>
 
-                        <!-- Password confirmation field -->
+                        <!-- Confirmation mot de passe -->
                         <div class="mb-3">
                             <label for="password-confirm" class="form-label">Confirmer le mot de passe</label>
                             <input type="password" class="form-control" id="password-confirm" name="password-confirm" required>
                             <div class="invalid-feedback">Les mots de passe ne correspondent pas.</div>
                         </div>
 
-                        <!-- Choose profile picture option -->
+                        <!-- Option de choix : Téléverser ou Prendre une photo -->
                         <div class="mb-3">
                             <label for="method-select" class="form-label">Choisissez comment ajouter une photo de profil :</label>
                             <select class="form-select" id="method-select" onchange="toggleMethod()">
@@ -53,13 +53,13 @@
                             </select>
                         </div>
 
-                        <!-- Upload an image -->
+                        <!-- Téléverser une image -->
                         <div id="upload-section" class="mb-3">
                             <label for="face_image" class="form-label">Téléverser une image</label>
                             <input type="file" class="form-control" id="face_image" name="face_image" accept="image/*">
                         </div>
 
-                        <!-- Capture an image with the webcam -->
+                        <!-- Capturer une photo avec la webcam -->
                         <div id="capture-section" class="mb-3" style="display: none;">
                             <label for="video" class="form-label d-block text-center">Prendre une photo avec la webcam</label>
                             <div class="d-flex justify-content-center">
@@ -73,7 +73,7 @@
                             </div>
                         </div>
 
-                        <!-- Submit button -->
+                        <!-- Soumission du formulaire -->
                         <div class="d-grid gap-2 mt-4">
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-box-arrow-in-right"></i> S'inscrire
@@ -87,19 +87,19 @@
     </div>
 </div>
 
-<!-- Script for image capture and toggling sections -->
+<!-- Script pour capturer l'image depuis la webcam ou téléverser -->
 <script>
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const faceImageInput = document.getElementById('face_image');
 
-    // Enable the camera to display the video stream
+    // Activer la caméra pour afficher le flux vidéo
     navigator.mediaDevices.getUserMedia({ video: true })
     .then((stream) => {
         video.srcObject = stream;
     });
 
-    // Function to capture image via webcam
+    // Fonction pour capturer l'image via la webcam
     function captureImage() {
         canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
         canvas.toBlob((blob) => {
@@ -110,7 +110,7 @@
         });
     }
 
-    // Toggle between upload and capture sections
+    // Fonction pour alterner entre téléversement et capture
     function toggleMethod() {
         const methodSelect = document.getElementById('method-select');
         const uploadSection = document.getElementById('upload-section');
@@ -125,7 +125,7 @@
         }
     }
 
-    // Password validation
+    // Validation des mots de passe
     document.getElementById('signup-form').addEventListener('submit', function(event) {
         const password = document.getElementById('password').value;
         const passwordConfirm = document.getElementById('password-confirm').value;
