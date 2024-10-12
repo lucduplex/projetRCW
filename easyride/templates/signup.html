@@ -21,6 +21,20 @@
                             <div class="invalid-feedback">Veuillez entrer un nom d'utilisateur.</div>
                         </div>
 
+                        <!-- Champ courriel -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Courriel</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                            <div class="invalid-feedback">Veuillez entrer un courriel valide.</div>
+                        </div>
+
+                        <!-- Champ numéro de téléphone -->
+                        <div class="mb-3">
+                            <label for="mobile_number" class="form-label">Numéro de mobile</label>
+                            <input type="text" class="form-control" id="mobile_number" name="mobile_number" required pattern="[0-9]{10}">
+                            <div class="invalid-feedback">Veuillez entrer un numéro de mobile valide (10 chiffres).</div>
+                        </div>
+
                         <!-- Champ mot de passe -->
                         <div class="mb-3">
                             <label for="password" class="form-label">Mot de passe</label>
@@ -51,18 +65,18 @@
                         </div>
 
                         <!-- Capturer une photo avec la webcam -->
-<div id="capture-section" class="mb-3" style="display: none;">
-    <label for="video" class="form-label d-block text-center">Prendre une photo avec la webcam</label>
-    <div class="d-flex justify-content-center">
-        <video id="video" class="border mb-3" width="320" height="240" autoplay></video>
-        <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
-    </div>
-    <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-warning mb-3" onclick="captureImage()">
-            <i class="bi bi-camera"></i> Capturer une image
-        </button>
-    </div>
-</div>
+                        <div id="capture-section" class="mb-3" style="display: none;">
+                            <label for="video" class="form-label d-block text-center">Prendre une photo avec la webcam</label>
+                            <div class="d-flex justify-content-center">
+                                <video id="video" class="border mb-3" width="320" height="240" autoplay></video>
+                                <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="button" class="btn btn-warning mb-3" onclick="captureImage()">
+                                    <i class="bi bi-camera"></i> Capturer une image
+                                </button>
+                            </div>
+                        </div>
 
                         <!-- Soumission du formulaire -->
                         <div class="d-grid gap-2 mt-4">
