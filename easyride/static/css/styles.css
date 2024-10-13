@@ -136,6 +136,10 @@ footer a {
     transform: scale(1.05);
 }
 
+.error-text {
+    color: red !important;
+}
+
 /* .scrollable-form {
     max-height: 90vh;
     overflow-y: auto;
