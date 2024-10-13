@@ -8,50 +8,67 @@
         <div class="col-lg-6 col-md-8">
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white text-center">
-                    <h4>Inscription avec Photo de Profil</h4>
+                    <h4>Inscription avec FaceID</h4>
                 </div>
                 <div class="card-body">
                     <form id="signup-form" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                         {% csrf_token %}
 
+                        <!-- Gestion des erreurs générales du formulaire -->
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
                         <!-- Champ nom d'utilisateur -->
                         <div class="mb-3">
                             <label for="username" class="form-label">Nom d'utilisateur</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
-                            <div class="invalid-feedback">Veuillez entrer un nom d'utilisateur.</div>
+                            <input type="text" class="form-control {% if form.username.errors %}is-invalid{% elif form.username.value %}is-valid{% endif %}" id="username" name="username" value="{{ form.username.value }}" required>
+                            <div class="invalid-feedback">
+                                {{ form.username.errors|striptags|join:", " }} <!-- Affichage des erreurs pour ce champ -->
+                            </div>
                         </div>
 
                         <!-- Champ courriel -->
                         <div class="mb-3">
                             <label for="email" class="form-label">Courriel</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                            <div class="invalid-feedback">Veuillez entrer un courriel valide.</div>
+                            <input type="email" class="form-control {% if form.email.errors %}is-invalid{% elif form.email.value %}is-valid{% endif %}" id="email" name="email" value="{{ form.email.value }}" required>
+                            <div class="invalid-feedback">
+                                {{ form.email.errors|striptags|join:", " }}
+                            </div>
                         </div>
 
-                        <!-- Champ numéro de téléphone -->
+                        <!-- Champ numéro de mobile -->
                         <div class="mb-3">
-                            <label for="mobile_number" class="form-label">Numéro de mobile</label>
-                            <input type="text" class="form-control" id="mobile_number" name="mobile_number" required pattern="[0-9]{10}">
-                            <div class="invalid-feedback">Veuillez entrer un numéro de mobile valide (10 chiffres).</div>
+                            <label for="cell" class="form-label">Numéro de téléphone</label>
+                            <input type="text" class="form-control {% if form.cell.errors %}is-invalid{% elif form.cell.value %}is-valid{% endif %}" id="cell" name="cell" value="{{ form.cell.value }}" required pattern="[0-9]{10}">
+                            <div class="invalid-feedback">
+                                {{ form.cell.errors|striptags|join:", " }}
+                            </div>
                         </div>
 
                         <!-- Champ mot de passe -->
                         <div class="mb-3">
-                            <label for="password" class="form-label">Mot de passe</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                            <div class="invalid-feedback">Veuillez entrer un mot de passe.</div>
+                            <label for="password1" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control {% if form.password1.errors %}is-invalid{% endif %}" id="password1" name="password1" required>
+                            <div class="invalid-feedback">
+                                {{ form.password1.errors|striptags|join:", " }}
+                            </div>
                         </div>
 
                         <!-- Confirmation mot de passe -->
                         <div class="mb-3">
-                            <label for="password-confirm" class="form-label">Confirmer le mot de passe</label>
-                            <input type="password" class="form-control" id="password-confirm" name="password-confirm" required>
-                            <div class="invalid-feedback">Les mots de passe ne correspondent pas.</div>
+                            <label for="password2" class="form-label">Confirmer le mot de passe</label>
+                            <input type="password" class="form-control {% if form.password2.errors %}is-invalid{% endif %}" id="password2" name="password2" required>
+                            <div class="invalid-feedback">
+                                {{ form.password2.errors|striptags|join:", " }}
+                            </div>
                         </div>
 
-                        <!-- Option de choix : Téléverser ou Prendre une photo -->
+                        <!-- FaceID : Téléverser ou Prendre une photo -->
                         <div class="mb-3">
-                            <label for="method-select" class="form-label">Choisissez comment ajouter une photo de profil :</label>
+                            <label for="method-select" class="form-label">Photo de FaceID :</label>
                             <select class="form-select" id="method-select" onchange="toggleMethod()">
                                 <option value="upload">Téléverser une image</option>
                                 <option value="capture">Prendre une photo avec la webcam</option>
@@ -60,11 +77,14 @@
 
                         <!-- Téléverser une image -->
                         <div id="upload-section" class="mb-3">
-                            <label for="face_image" class="form-label">Téléverser une image</label>
-                            <input type="file" class="form-control" id="face_image" name="face_image" accept="image/*">
+                            <label for="face_id" class="form-label">Téléverser une image</label>
+                            <input type="file" class="form-control {% if form.face_id.errors %}is-invalid{% endif %}" id="face_id" name="face_id" accept="image/*">
+                            <div class="invalid-feedback">
+                                {{ form.face_id.errors|striptags|join:", " }}
+                            </div>
                         </div>
 
-                        <!-- Capturer une photo avec la webcam -->
+                        <!-- Prendre une photo avec la webcam -->
                         <div id="capture-section" class="mb-3" style="display: none;">
                             <label for="video" class="form-label d-block text-center">Prendre une photo avec la webcam</label>
                             <div class="d-flex justify-content-center">
@@ -84,7 +104,6 @@
                                 <i class="bi bi-box-arrow-in-right"></i> S'inscrire
                             </button>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -92,56 +111,55 @@
     </div>
 </div>
 
-<!-- Script pour capturer l'image depuis la webcam ou téléverser -->
 <script>
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
-    const faceImageInput = document.getElementById('face_image');
+// JavaScript pour gérer l'upload ou la capture d'image pour FaceID
+function toggleMethod() {
+    const methodSelect = document.getElementById('method-select');
+    const uploadSection = document.getElementById('upload-section');
+    const captureSection = document.getElementById('capture-section');
 
-    // Activer la caméra pour afficher le flux vidéo
-    navigator.mediaDevices.getUserMedia({ video: true })
+    if (methodSelect.value === 'upload') {
+        uploadSection.style.display = 'block';
+        captureSection.style.display = 'none';
+    } else {
+        uploadSection.style.display = 'none';
+        captureSection.style.display = 'block';
+    }
+}
+
+// Fonction pour capturer l'image depuis la webcam
+navigator.mediaDevices.getUserMedia({ video: true })
     .then((stream) => {
-        video.srcObject = stream;
+        document.getElementById('video').srcObject = stream;
     });
 
-    // Fonction pour capturer l'image via la webcam
-    function captureImage() {
-        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-        canvas.toBlob((blob) => {
-            const file = new File([blob], "face_image.jpg", { type: "image/jpeg" });
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            faceImageInput.files = dataTransfer.files;
-        });
-    }
+function captureImage() {
+    const canvas = document.getElementById('canvas');
+    const video = document.getElementById('video');
+    const faceImageInput = document.getElementById('face_id');
 
-    // Fonction pour alterner entre téléversement et capture
-    function toggleMethod() {
-        const methodSelect = document.getElementById('method-select');
-        const uploadSection = document.getElementById('upload-section');
-        const captureSection = document.getElementById('capture-section');
-
-        if (methodSelect.value === 'upload') {
-            uploadSection.style.display = 'block';
-            captureSection.style.display = 'none';
-        } else if (methodSelect.value === 'capture') {
-            uploadSection.style.display = 'none';
-            captureSection.style.display = 'block';
-        }
-    }
-
-    // Validation des mots de passe
-    document.getElementById('signup-form').addEventListener('submit', function(event) {
-        const password = document.getElementById('password').value;
-        const passwordConfirm = document.getElementById('password-confirm').value;
-        
-        if (password !== passwordConfirm) {
-            event.preventDefault();
-            document.getElementById('password-confirm').setCustomValidity("Les mots de passe ne correspondent pas");
-            document.getElementById('password-confirm').reportValidity();
-        } else {
-            document.getElementById('password-confirm').setCustomValidity("");
-        }
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob((blob) => {
+        const file = new File([blob], "face_image.jpg", { type: "image/jpeg" });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        faceImageInput.files = dataTransfer.files;
     });
+}
+
+// Validation du formulaire côté client
+(function () {
+    'use strict';
+    var forms = document.querySelectorAll('.needs-validation');
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+})();
 </script>
 {% endblock %}

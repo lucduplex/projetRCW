@@ -1,10 +1,69 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from .forms import SignUpForm
-from .models import UserProfile
-from .forms import LoginForm
-from .models import UserProfile
-from django.core.files.storage import FileSystemStorage
+from django.contrib import messages
+import face_recognition
+from django.core.exceptions import ValidationError
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        face_image = request.FILES.get('face_id')
+
+        if username and password and face_image:
+            # Authentification classique avec username et password
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                # Vérification de FaceID
+                if user.face_id:
+                    try:
+                        # Charger l'image FaceID de l'utilisateur depuis le système
+                        known_image = face_recognition.load_image_file(user.face_id.path)
+                        
+                        # Charger l'image envoyée dans le formulaire pour la comparaison
+                        unknown_image = face_recognition.load_image_file(face_image)
+
+                        # Extraire les encodages des visages
+                        known_encoding = face_recognition.face_encodings(known_image)
+                        unknown_encoding = face_recognition.face_encodings(unknown_image)
+
+                        if not known_encoding or not unknown_encoding:
+                            raise ValidationError("Aucun visage détecté dans l'image.")
+
+                        # Comparer les deux visages
+                        results = face_recognition.compare_faces([known_encoding[0]], unknown_encoding[0])
+
+                        if results[0]:
+                            # Connexion de l'utilisateur après validation FaceID
+                            login(request, user)
+                            return redirect('home')
+                        else:
+                            messages.error(request, "Échec de la reconnaissance faciale.")
+                    except Exception as e:
+                        messages.error(request, f"Erreur lors de la vérification de FaceID : {e}")
+                else:
+                    messages.error(request, "Aucun FaceID enregistré pour cet utilisateur.")
+            else:
+                messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")
+        else:
+            messages.error(request, "Veuillez entrer tous les champs requis.")
+    return render(request, 'login.html')
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('login')
+        else:
+            messages.error(request, "Formulaire d'inscription invalide. Veuillez vérifier vos informations.")
+    else:
+        form = SignUpForm()
+    return render(request, 'signup.html', {'form': form})
 
 def home_view(request):
     return render(request, 'home.html')
@@ -14,54 +73,6 @@ def user_logout(request):
     request.session.flush()  # Vider la session lors de la déconnexion
     return redirect('login')  # Redirection vers la page de connexion après déconnexion
 
-def signup_view(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST, request.FILES)
-        if form.is_valid():
-            # Créer l'utilisateur et le profil associé
-            user = form.save()
-            user.refresh_from_db()  # Actualise l'utilisateur pour avoir accès à son profil lié
-            
-            # Récupérer les champs supplémentaires
-            user.userprofile.mobile_number = form.cleaned_data.get('mobile_number')
-            user.userprofile.email = form.cleaned_data.get('email')
-            
-            # Gestion de la photo de profil
-            face_image = form.cleaned_data.get('face_image')
-            if face_image:
-                fs = FileSystemStorage()
-                filename = fs.save(face_image.name, face_image)
-                user.userprofile.face_image = fs.url(filename)
-            
-            user.save()
-
-            # Connexion de l'utilisateur après inscription
-            login(request, user)
-            return redirect('home')
-    else:
-        form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
-
-def login_view(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST, request.FILES)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            face_image = form.cleaned_data['face_image']
-            user = authenticate(request, username=username, password=password)
-            if user:
-                profile = UserProfile.objects.get(user=user)
-                if profile.verify_face(face_image):
-                    login(request, user)
-                    return redirect('home')
-                else:
-                    form.add_error(None, "Reconnaissance faciale échouée")
-            else:
-                form.add_error(None, "Nom d'utilisateur ou mot de passe incorrect")
-    else:
-        form = LoginForm()
-    return render(request, 'login.html', {'form': form})
 
 def about_view(request):
     return render(request, 'about.html')  # Assurez-vous que 'about.html' existe dans vos templates
