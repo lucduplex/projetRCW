@@ -1,4 +1,67 @@
+<style>
+    .split {
+      height: 99%;
+      width: 50%;
+      position: relative;
+      z-index: 1;
+      top: 0;
+      overflow-x: hidden;
+      padding-top: 50px;
+    }
+    
+    .centered {
+        float: left;
+      position: relative;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: left;
+    }
+
+    .input-group {
+        position: relative;
+        margin: 20px 0;
+    }
+
+    .input-group label {
+        position: absolute;
+        top: 50%;
+        left: 5px;
+        transform: translateY(-50%);
+        font-size: 16px;
+        color: black;
+        padding: 0 5px;
+        pointer-events: none;
+    }
+
+    .input-group input {
+        width: 320px;
+        height: 40px;
+        font-size: 16px;
+        color: black;
+        padding: 0 10px;
+        background: transparent;
+        border: 1.2px solid black;
+        outline: none;
+        border-radius: 5px;
+    }
+
+    .input-group input:focus~label,
+    .input-group input:valid~label {
+        top: 0;
+        font-size: 12px;
+        background: #fff;
+    }
+
+    .img-cl {
+        margin-top: -650;
+        float: right;
+        width: 600px;
+    }
+    </style>
+
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}EasyRide - Transport facile et rapide{% endblock %}
 
@@ -12,6 +75,32 @@
         <p class="mb-4 text-muted">Avec EasyRide, vous pouvez réserver une course, suivre les véhicules en temps réel, et évaluer votre expérience avec nos chauffeurs.</p>
         <a class="btn btn-outline-primary btn-lg me-3" href="/booking/" role="button">Réserver une course</a>
         <a class="btn btn-outline-secondary btn-lg" href="/about/" role="button">En savoir plus</a>
+    </div>
+
+    <!-- Choisir point de départ et destination (Left Side) --> 
+    <div class="split">
+        <div class="centered">
+            <h1>Commandez ou plannifiez une course</h1>
+            <p>Ajoutez les détails de votre course, montez à bord et c'est parti.</p>
+
+            <div class="input-group">
+                <input type="text">
+                <label for="depart">Choisissez le point de départ</label>
+            </div>
+
+            <div class="input-group">
+                <input type="text">
+                <label for="destination">Choisissez une destination</label>
+            </div>
+
+            <button type="button" class="btn btn-dark">Voir les prix</button>
+            <button type="button" class="btn btn-light">Plannifier pour plus tard</button>
+        </div>
+      </div>
+    
+    <!-- Image (Right Side) -->
+    <div>
+        <img src="{% static 'images/Acceuil.png' %}" class="img-cl" alt="Accessibilité">
     </div>
 
     <!-- Section Services principaux -->

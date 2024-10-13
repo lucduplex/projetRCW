@@ -140,6 +140,69 @@ footer a {
     color: red !important;
 }
 
+
+
+/* CSS pour acceuil */
+.split {
+    height: 99%;
+    width: 50%;
+    position: relative;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 50px;
+}
+  
+.centered {
+    float: left;
+    position: relative;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: left;
+}
+
+.input-group {
+    position: relative;
+  margin: 20px 0;
+}
+
+.input-group label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: black;
+    padding: 0 5px;
+    pointer-events: none;
+}
+
+.input-group input {
+    width: 320px;
+    height: 40px;
+    font-size: 16px;
+    color: black;
+    padding: 0 10px;
+    background: transparent;
+    border: 1.2px solid black;
+    outline: none;
+    border-radius: 5px;
+}
+
+.input-group input:focus~label,
+.input-group input:valid~label {
+    top: 0;
+    font-size: 12px;
+    background: #fff;
+}
+
+.img-cl {
+    margin-top: -650;
+    float: right;
+    width: 600px;
+}
+
 /* .scrollable-form {
     max-height: 90vh;
     overflow-y: auto;
