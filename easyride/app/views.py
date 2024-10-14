@@ -60,7 +60,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('login')
+            return redirect('home')
         else:
             messages.error(request, "Formulaire d'inscription invalide. Veuillez vérifier vos informations.")
     else:
@@ -85,3 +85,18 @@ def profile_view(request):
         'user_face_id': user_face_id
     }
     return render(request, 'profile.html', data)
+
+def deleteUser_View(request):
+    try:
+        current_user = request.user
+        current_user.delete()
+        return redirect('home')
+    except:
+        messages.error(request, "Erreur lors de la suppression de votre compte.")
+        
+def confirm_deleteUser_View(request):
+    user_face_id = request.user.face_id
+    data = {
+        'user_face_id': user_face_id
+    }
+    return render(request, "confirm_deleteUser.html", data)
