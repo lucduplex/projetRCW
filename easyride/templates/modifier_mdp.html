@@ -19,7 +19,7 @@
                                     <a class="btn btn-primary" href="/profile/">Profil</a>
                                 </li><br>
                                 <li class="nav-item">
-                                    <a class="btn btn-secondary" href="/modifier_compte/">Modifier votre compte</a>
+                                    <a class="btn btn-secondary" href="/updateAccount/">Modifier votre compte</a>
                                 </li><br>
                                 <li class="nav-item">
                                     <a class="btn btn-secondary" href="/updatePassword/">Modifier mot de passe</a>
@@ -39,54 +39,48 @@
             </div>
             <div class="col-md-8 mt-1">
                 <div class="card mb-3 content" style="background-color: lightgray;">
-                    <h1 class="m-3 pt-3">Modifier votre compte</h1>
+                    <h1 class="m-3 pt-3">Modifier votre mot de passe</h1>
                     <div class="card-body">
-                        <form method="POST" enctype="multipart/form-data">
+                        <form method="POST">
                             {% csrf_token %}
-                            
                             <div class="row">
                                 <div class="col-md-3">
-                                    <h5>Nom d'utilisateur</h5>
+                                    <h5>Ancien mot de passe</h5>
                                 </div>
                                 <div class="col-md-9 text-secondary">
-                                    <input type="text" name="username" id="username" value="{{ form.instance.username }}" class="form-control">
+                                    <input type="password" name="old_password" id="old_password" class="form-control">
+                                    {% if form.old_password.errors %}
+                                        <div class="text-danger">{{ form.old_password.errors }}</div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <hr color="red">
-                        
                             <div class="row">
                                 <div class="col-md-3">
-                                    <h5>Courriel</h5>
+                                    <h5>Nouveau mot de passe</h5>
                                 </div>
                                 <div class="col-md-9 text-secondary">
-                                    <input type="email" name="email" id="email" value="{{ form.instance.email }}" class="form-control">
+                                    <input type="password" name="new_password1" id="new_password1" class="form-control">
+                                    {% if form.new_password1.errors %}
+                                        <div class="text-danger">{{ form.new_password1.errors }}</div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <hr color="red">
-                        
                             <div class="row">
                                 <div class="col-md-3">
-                                    <h5>Numéro de téléphone</h5>
+                                    <h5>Confirmer le nouveau mot de passe</h5>
                                 </div>
                                 <div class="col-md-9 text-secondary">
-                                    <input type="tel" name="cell" id="cell" value="{{ form.instance.cell }}" class="form-control">
+                                    <input type="password" name="new_password2" id="new_password2" class="form-control">
+                                    {% if form.new_password2.errors %}
+                                        <div class="text-danger">{{ form.new_password2.errors }}</div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <hr color="red">
-
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <h5>Adresse</h5>
-                                </div>
-                                <div class="col-md-9 text-secondary">
-                                    <input type="text" name="address" id="address" value="{{ form.instance.address }}" class="form-control">
-                                </div>
-                            </div>
-                            <hr color="red">
-                            
-                            <button type="submit" class="btn btn-primary">Modifier</button>
-                        </form>
-                                           
+                            <button type="submit" class="btn btn-primary">Modifier le mot de passe</button>
+                        </form>                            
                     </div>
                 </div>
             </div>

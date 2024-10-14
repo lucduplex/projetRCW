@@ -4,6 +4,7 @@ from django.db import models
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     cell = models.CharField(max_length=15)
+    address = models.CharField(max_length=255)
     face_id = models.ImageField(upload_to='face_ids/', blank=True, null=True)
 
     # Ajoute related_name pour éviter les conflits
