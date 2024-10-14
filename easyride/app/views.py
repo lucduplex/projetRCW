@@ -4,6 +4,7 @@ from .forms import SignUpForm
 from django.contrib import messages
 import face_recognition
 from django.core.exceptions import ValidationError
+from django.conf import settings
 
 
 def login_view(request):
@@ -77,3 +78,10 @@ def user_logout(request):
 
 def about_view(request):
     return render(request, 'about.html')  # Assurez-vous que 'about.html' existe dans vos templates
+
+def profile_view(request):
+    user_face_id = request.user.face_id
+    data = {
+        'user_face_id': user_face_id
+    }
+    return render(request, 'profile.html', data)

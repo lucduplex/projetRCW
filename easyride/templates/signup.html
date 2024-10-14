@@ -3,6 +3,10 @@
 {% block title %}Inscription{% endblock %}
 
 {% block content %}
+<!-- jQuery and Mask Plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
@@ -33,7 +37,7 @@
                         <!-- Champ courriel -->
                         <div class="mb-3">
                             <label for="email" class="form-label">Courriel</label>
-                            <input type="email" class="form-control {% if form.email.errors %}is-invalid{% elif form.email.value %}is-valid{% endif %}" id="email" name="email" value="{{ form.email.value }}" required>
+                            <input type="email" class="form-control {% if form.email.errors %}is-invalid{% elif form.email.value %}is-valid{% endif %}" id="email" name="email" required>
                             <div class="invalid-feedback">
                                 {{ form.email.errors|striptags|join:", " }}
                             </div>
@@ -42,7 +46,7 @@
                         <!-- Champ numéro de mobile -->
                         <div class="mb-3">
                             <label for="cell" class="form-label">Numéro de téléphone</label>
-                            <input type="text" class="form-control {% if form.cell.errors %}is-invalid{% elif form.cell.value %}is-valid{% endif %}" id="cell" name="cell" value="{{ form.cell.value }}" required pattern="[0-9]{10}">
+                            <input type="text" class="form-control {% if form.cell.errors %}is-invalid{% elif form.cell.value %}is-valid{% endif %}" id="cell" name="cell" required>
                             <div class="invalid-feedback">
                                 {{ form.cell.errors|striptags|join:", " }}
                             </div>
@@ -161,5 +165,10 @@ function captureImage() {
         }, false);
     });
 })();
+
+// Apply mask to the phone number field
+$(document).ready(function(){
+    $('#cell').mask('(999) 999-9999');  // This applies the mask "(514) 111-1111"
+});
 </script>
 {% endblock %}

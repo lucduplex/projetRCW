@@ -35,12 +35,12 @@
                 </ul>
 
                 {% if request.user.is_authenticated %}
-                    <button type="button" class="btn btn-primary position-relative">
-                        Profile
+                    <a class="btn btn-primary" href="/profile/">Profile</a>
+                    <!-- <button type="button" class="btn btn-primary position-relative">
+                        <a href="/profile/">Profile</a>
                         <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                          <span class="visually-hidden">Profile</span>
                         </span>
-                    </button>
+                    </button> -->
                 {% endif %}
 
                 <ul class="navbar-nav ms-auto">
