@@ -60,40 +60,6 @@ body {
     background-color: #666;
     color: #fff;
 }
-
-/* Bouton déconnexion */
-.btn-deconnexion {
-    background-color: #ff4757;
-    color: #fff;
-    border-color: #ff4757;
-    transition: all 0.3s ease-in-out;
-    border-radius: 10px;
-    padding: 10px 20px;
-}
-
-
-.btn-deconnexion:hover {
-    background-color: #e84118;
-    border-color: #e84118;
-    transform: scale(1.05);
-}
-
-/* Bouton connexion */
-.btn-connexion {
-    background-color: #2ecc71;
-    color: #fff;
-    border-color: #2ecc71;
-    transition: all 0.3s ease-in-out;
-    border-radius: 10px;
-    padding: 10px 20px;
-}
-
-.btn-connexion:hover {
-    background-color: #27ae60;
-    border-color: #27ae60;
-    transform: scale(1.05);
-}
-
 /* Footer */
 footer {
     background-color: #333;
@@ -151,60 +117,54 @@ footer a {
     top: 0;
     overflow-x: hidden;
     padding-top: 50px;
-}
+  }
   
-.centered {
-    float: left;
+  .centered {
+      float: left;
     position: relative;
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: left;
-}
+  }
 
-.input-group {
-    position: relative;
-  margin: 20px 0;
-}
+  .input-group {
+      position: relative;
+      margin: 20px 0;
+  }
 
-.input-group label {
-    position: absolute;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-    font-size: 16px;
-    color: black;
-    padding: 0 5px;
-    pointer-events: none;
-}
+  .input-group label {
+      position: absolute;
+      top: 50%;
+      left: 5px;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: black;
+      padding: 0 5px;
+      pointer-events: none;
+  }
 
-.input-group input {
-    width: 320px;
-    height: 40px;
-    font-size: 16px;
-    color: black;
-    padding: 0 10px;
-    background: transparent;
-    border: 1.2px solid black;
-    outline: none;
-    border-radius: 5px;
-}
+  .input-group input {
+      width: 320px;
+      height: 40px;
+      font-size: 16px;
+      color: black;
+      padding: 0 10px;
+      background: transparent;
+      border: 1.2px solid black;
+      outline: none;
+      border-radius: 5px;
+  }
 
-.input-group input:focus~label,
-.input-group input:valid~label {
-    top: 0;
-    font-size: 12px;
-    background: #fff;
-}
+  .input-group input:focus~label,
+  .input-group input:valid~label {
+      top: 0;
+      font-size: 12px;
+      background: #fff;
+  }
 
-.img-cl {
-    margin-top: -650;
-    float: right;
-    width: 600px;
-}
-
-/* .scrollable-form {
-    max-height: 90vh;
-    overflow-y: auto;
-    padding-right: 15px;
-} */
+  .img-cl {
+      margin-top: -650;
+      float: right;
+      width: 600px;
+  }

@@ -12,47 +12,45 @@
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">EasyRide</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left side of the navbar -->
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="/">Accueil</a>
+                        <a class="btn btn-outline-light mx-1" href="/">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-secondary" href="/booking/">Réserver une course</a>
+                        <a class="btn btn-outline-light mx-1" href="/booking/">Réserver une course</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-secondary" href="/vehicles/">Véhicules disponibles</a>
+                        <a class="btn btn-outline-light mx-1" href="/vehicles/">Véhicules disponibles</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-secondary" href="/rate-driver/">Noter un chauffeur</a>
+                        <a class="btn btn-outline-light mx-1" href="/rate-driver/">Noter un chauffeur</a>
                     </li>
                 </ul>
 
-                {% if request.user.is_authenticated %}
-                    <button type="button" class="btn btn-primary position-relative">
-                        Profile
-                        <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                          <span class="visually-hidden">Profile</span>
-                        </span>
-                    </button>
-                {% endif %}
-
+                <!-- Right side of the navbar -->
                 <ul class="navbar-nav ms-auto">
                     {% if request.user.is_authenticated %}
                         <li class="nav-item">
-                            <a class=" btn-deconnexion" href="{% url 'logout' %}">
+                            <a class="btn btn-outline-light mx-1" href="/profile/">
+                                <i class="bi bi-person"></i> Profil
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-danger mx-1" href="{% url 'logout' %}">
                                 <i class="bi bi-box-arrow-right"></i> Déconnexion
                             </a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="btn-connexion" href="{% url 'login' %}">
+                            <a class="btn btn-success mx-1" href="{% url 'login' %}">
                                 <i class="bi bi-box-arrow-in-right"></i> Connexion
                             </a>
                         </li>
