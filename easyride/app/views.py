@@ -100,3 +100,10 @@ def confirm_deleteUser_View(request):
         'user_face_id': user_face_id
     }
     return render(request, "confirm_deleteUser.html", data)
+
+def updateAccount_view(request):
+    user_face_id = request.user.face_id
+    data = {
+        'user_face_id': user_face_id
+    }
+    return render(request, 'modifier_compte.html', data)
