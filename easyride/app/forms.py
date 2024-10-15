@@ -23,3 +23,7 @@ class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'email', 'cell', 'address')
+        
+        
+class ConfirmationOfPasswordForm(forms.Form):
+    password = forms.CharField(required=True)
