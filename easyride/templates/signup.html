@@ -28,7 +28,7 @@
                         <!-- Champ nom d'utilisateur -->
                         <div class="mb-3">
                             <label for="username" class="form-label">Nom d'utilisateur</label>
-                            <input type="text" class="form-control {% if form.username.errors %}is-invalid{% elif form.username.value %}is-valid{% endif %}" id="username" name="username" value="{{ form.username.value }}" required>
+                            <input type="text" class="form-control {% if form.username.errors %}is-invalid{% elif form.username.value %}is-valid{% endif %}" id="username" name="username" required>
                             <div class="invalid-feedback">
                                 {{ form.username.errors|striptags|join:", " }} <!-- Affichage des erreurs pour ce champ -->
                             </div>
@@ -49,6 +49,15 @@
                             <input type="text" class="form-control {% if form.cell.errors %}is-invalid{% elif form.cell.value %}is-valid{% endif %}" id="cell" name="cell" required>
                             <div class="invalid-feedback">
                                 {{ form.cell.errors|striptags|join:", " }}
+                            </div>
+                        </div>
+
+                        <!-- Champ adresse -->
+                        <div class="mb-3">
+                            <label for="cell" class="form-label">Adresse</label>
+                            <input type="text" class="form-control {% if form.address.errors %}is-invalid{% elif form.address.value %}is-valid{% endif %}" id="address" name="address" required>
+                            <div class="invalid-feedback">
+                                {{ form.address.errors|striptags|join:", " }}
                             </div>
                         </div>
 
