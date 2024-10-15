@@ -82,11 +82,14 @@ def about_view(request):
     return render(request, 'about.html')  # Assurez-vous que 'about.html' existe dans vos templates
 
 def profile_view(request):
-    user_face_id = request.user.face_id
-    data = {
-        'user_face_id': user_face_id
-    }
-    return render(request, 'profile.html', data)
+    if request.user.is_authenticated:
+        user_face_id = request.user.face_id
+        data = {
+            'user_face_id': user_face_id
+        }
+        return render(request, 'profile.html', data)
+    else:
+        return render(request, 'profile.html')
 
 def deleteUser_View(request):
     try:
@@ -97,48 +100,57 @@ def deleteUser_View(request):
         messages.error(request, "Erreur lors de la suppression de votre compte.")
         
 def confirm_deleteUser_View(request):
-    user_face_id = request.user.face_id
-    data = {
-        'user_face_id': user_face_id
-    }
-    return render(request, "confirm_deleteUser.html", data)
+    if request.user.is_authenticated:
+        user_face_id = request.user.face_id
+        data = {
+            'user_face_id': user_face_id
+        }
+        return render(request, "confirm_deleteUser.html", data)
+    else:
+        return render(request, 'confirm_deleteUser.html')
 
 def updateAccount_view(request):
-    if request.method == 'POST':
-        form = UpdateUserForm(request.POST, request.FILES, instance=request.user)  # Pass current user as instance
-        if form.is_valid():
-            form.save()
-            update_session_auth_hash(request, form.instance)  # Keep the user logged in after password change
-            messages.success(request, "Votre compte a été mis à jour avec succès.")
-            return redirect('profile')
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = UpdateUserForm(request.POST, request.FILES, instance=request.user)  # Pass current user as instance
+            if form.is_valid():
+                form.save()
+                update_session_auth_hash(request, form.instance)  # Keep the user logged in after password change
+                messages.success(request, "Votre compte a été mis à jour avec succès.")
+                return redirect('profile')
+            else:
+                messages.error(request, "Formulaire de modification invalide. Veuillez vérifier vos informations.")
         else:
-            messages.error(request, "Formulaire de modification invalide. Veuillez vérifier vos informations.")
-    else:
-        form = UpdateUserForm(instance=request.user)  # Prepopulate the form with the current user data
+            form = UpdateUserForm(instance=request.user)  # Prepopulate the form with the current user data
 
-    user_face_id = request.user.face_id  # Get the face_id of the current user
-    data = {
-        'user_face_id': user_face_id,
-        'form': form
-    }
-    return render(request, 'modifier_compte.html', data)
+        user_face_id = request.user.face_id  # Get the face_id of the current user
+        data = {
+            'user_face_id': user_face_id,
+            'form': form
+        }
+        return render(request, 'modifier_compte.html', data)
+    else:
+        return render(request, 'modifier_compte.html')
 
 def updatePassword_view(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(user = request.user, data = request.POST)  # Pass current user as instance
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Keep the user logged in after password change
-            messages.success(request, "Votre mot de passe a été mis à jour avec succès.")
-            return redirect('profile')
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = PasswordChangeForm(user = request.user, data = request.POST)  # Pass current user as instance
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)  # Keep the user logged in after password change
+                messages.success(request, "Votre mot de passe a été mis à jour avec succès.")
+                return redirect('profile')
+            else:
+                messages.error(request, "Erreur lors de modification de votre mot de passe.")
         else:
-            messages.error(request, "Erreur lors de modification de votre mot de passe.")
-    else:
-        form = PasswordChangeForm(user = request.user)  # Prepopulate the form with the current user data
+            form = PasswordChangeForm(user = request.user)  # Prepopulate the form with the current user data
 
-    user_face_id = request.user.face_id  # Get the face_id of the current user
-    data = {
-        'user_face_id': user_face_id,
-        'form': form
-    }
-    return render(request, 'modifier_mdp.html', data)
+        user_face_id = request.user.face_id  # Get the face_id of the current user
+        data = {
+            'user_face_id': user_face_id,
+            'form': form
+        }
+        return render(request, 'modifier_mdp.html', data)
+    else:
+        return render(request, 'modifier_mdp.html')
