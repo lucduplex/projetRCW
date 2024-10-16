@@ -6,7 +6,7 @@ from django.core.validators import RegexValidator
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    cell = forms.CharField(max_length=15, validators=[RegexValidator(regex=r'^(\D*514|\D*438)\D*\d{3}\D*\d{4}$', message="Le numéro de téléphone doit commencer par 514 ou 438.")], required=True)
+    cell = forms.CharField(max_length=15, validators=[RegexValidator(regex=r'^(\D*514|\D*438)\D*\d{3}\D*\d{4}$', message="Le numéro de téléphone doit commencer par 514 ou 438 et doit comporter 15 chiffres.")], required=True)
     address = forms.CharField(max_length=255, required=True)
     face_id = forms.ImageField(required=True)
 
