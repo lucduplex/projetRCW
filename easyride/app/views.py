@@ -131,9 +131,9 @@ def updateAccount_view(request):
                 form.save()
                 update_session_auth_hash(request, form.instance)  # Keep the user logged in after password change
                 messages.success(request, "Votre compte a été mis à jour avec succès.")
-                return redirect('profile')
-            else:
-                messages.error(request, "Formulaire de modification invalide. Veuillez vérifier vos informations.")
+                # return redirect('profile')
+            # else:
+            #     messages.error(request, "Formulaire de modification invalide. Veuillez vérifier vos informations.")
         else:
             form = UpdateUserForm(instance=request.user)  # Prepopulate the form with the current user data
 
@@ -155,9 +155,9 @@ def updatePassword_view(request):
                 user = form.save()
                 update_session_auth_hash(request, user)  # Keep the user logged in after password change
                 messages.success(request, "Votre mot de passe a été mis à jour avec succès.")
-                return redirect('profile')
-            else:
-                messages.error(request, "Erreur lors de modification de votre mot de passe.")
+                # return redirect('profile')
+            # else:
+            #     messages.error(request, "Erreur lors de modification de votre mot de passe.")
         else:
             form = PasswordChangeForm(user = request.user)  # Prepopulate the form with the current user data
 
