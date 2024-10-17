@@ -1,14 +1,27 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Connexion{% endblock %}
 
 {% block content %}
+<!-- Style -->
+<style>
+    body {
+        background: 
+        linear-gradient(57deg, #1E88E5 35%, #1565C0 25%),  /* Light Blue to Medium Blue */
+            linear-gradient(23deg, #42A5F5 60%, #0D47A1 60%),  /* Medium Blue to Dark Blue */
+            linear-gradient(135deg, #00ACC1 80%, #2196F3 80%); /* Cyan to Bright Blue */
+    }
+</style>
+
+
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white text-center">
-                    <h4>Connexion avec FaceID</h4>
+                    <h4>Connexion</h4>
                 </div>
                 <div class="card-body">
                     <!-- Section pour afficher les messages d'erreur -->

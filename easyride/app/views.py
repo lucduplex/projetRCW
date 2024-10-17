@@ -114,7 +114,7 @@ def confirm_deleteUser_View(request):
 
         current_user_face_id = request.user.face_id
         data = {
-            "face_id": current_user_face_id,
+            "user_face_id": current_user_face_id,
             "form": form
         }
         
