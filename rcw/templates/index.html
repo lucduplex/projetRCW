@@ -1,0 +1,12 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1 class="display-4">Bienvenue sur le site de Recherche d'Emploi</h1>
+    <p class="lead">Trouver un emploi ou publier une offre facilement.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'job_list' %}" role="button">Voir les Offres</a>
+</div>
+{% endblock %}

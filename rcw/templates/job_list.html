@@ -1,0 +1,19 @@
+<!-- templates/app/job_list.html -->
+{% extends "base.html" %}
+
+{% block title %}Liste des Offres d'Emploi{% endblock %}
+
+{% block content %}
+<h2>Offres d'Emploi</h2>
+<div class="list-group">
+    {% for job in jobs %}
+        <a href="#" class="list-group-item list-group-item-action">
+            <h5>{{ job.titre }}</h5>
+            <p>{{ job.description|truncatewords:30 }}</p>
+            <small>{{ job.localisation }} - {{ job.date_publication|date:"d M Y" }}</small>
+        </a>
+    {% empty %}
+        <p>Aucune offre disponible pour le moment.</p>
+    {% endfor %}
+</div>
+{% endblock %}
